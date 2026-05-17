@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowDown, Layers, Cloud, Users, FileDown } from 'lucide-react';
+import ProfileAvatar from './ProfileAvatar';
 import { profileLinks } from '../profileLinks';
 
 const Hero: React.FC = () => {
@@ -7,6 +8,11 @@ const Hero: React.FC = () => {
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-secondary-50 pt-16">
       <div className="container-max text-center px-4">
         <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col items-center mb-6">
+            <ProfileAvatar size="lg" />
+            <p className="mt-3 text-sm font-medium text-secondary-600">Sathish Anantharaj</p>
+            <p className="text-xs text-secondary-500">Senior Data Scientist · Chennai, India</p>
+          </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-secondary-900 mb-6 leading-tight">
             Data Science for{' '}
             <span className="gradient-text">Production AI Systems</span>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Target, Users, Lightbulb, Award } from 'lucide-react';
+import ProfileAvatar from './ProfileAvatar';
 
 const About: React.FC = () => {
   return (
@@ -7,6 +8,7 @@ const About: React.FC = () => {
       <div className="container-max">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
+            <ProfileAvatar size="sm" className="mb-4" />
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
               About me
             </h2>
