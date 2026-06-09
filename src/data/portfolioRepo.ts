@@ -8,7 +8,7 @@ export const portfolioRepo = {
   readmeUrl: 'https://github.com/Sathishvp7/Agentic_AI_Learning#readme',
 } as const;
 
-export type RepoSection = 'agents' | 'nlp' | 'slms';
+export type RepoSection = 'computer_vision' | 'agents' | 'nlp' | 'slms';
 
 export type PortfolioProject = {
   id: string;
@@ -19,6 +19,16 @@ export type PortfolioProject = {
   techStack: string[];
   githubUrl: string;
   path: string;
+  /** Marks a project for the highlighted showcase at the top of the section */
+  featured?: boolean;
+  /** Primary demo video (local file under public/ preferred) */
+  videoUrl?: string;
+  /** Fallback demo video if the primary fails to load */
+  videoFallbackUrl?: string;
+  /** Optional poster/thumbnail shown before the video plays */
+  posterUrl?: string;
+  /** Real-world applications to highlight */
+  applications?: string[];
 };
 
 const p = (section: RepoSection, path: string, rest: Omit<PortfolioProject, 'section' | 'path' | 'githubUrl'>) => ({
@@ -30,6 +40,28 @@ const p = (section: RepoSection, path: string, rest: Omit<PortfolioProject, 'sec
 
 /** Mirrors https://github.com/Sathishvp7/Agentic_AI_Learning — see root README project index */
 export const portfolioProjects: PortfolioProject[] = [
+  p('computer_vision', 'computer_vision/SAM3_works', {
+    id: 'cv-sam3-tracking',
+    title: 'SAM 3 — video object tracking',
+    description:
+      'Prompt-driven video object segmentation and tracking with Meta’s Segment Anything Model 3. Unlike stateless correlation trackers (MOSSE, CSRT), SAM 3 keeps a stateful inference session with a memory bank — staying locked on through lighting changes, partial occlusion, and crowded scenes. Supports text, point, and box prompts, plus multi-object tracking and a streaming mode for live feeds.',
+    techStack: ['SAM 3', 'PyTorch', 'HuggingFace', 'OpenCV', 'Gradio', 'Python'],
+    featured: true,
+    /** Drop the demo at public/demos/sam3-tracking.mp4 to self-host; otherwise streams from GitHub */
+    videoUrl: `${process.env.PUBLIC_URL}/demos/sam3-tracking.mp4`,
+    videoFallbackUrl:
+      'https://github.com/Sathishvp7/Agentic_AI_Learning/raw/main/computer_vision/SAM3_works/output_tracked.mp4',
+    posterUrl: `${process.env.PUBLIC_URL}/demos/sam3-poster.png`,
+    applications: [
+      'Surveillance & security',
+      'Industrial inspection',
+      'Autonomous systems & robotics',
+      'Intelligent video analytics',
+      'Sports analytics',
+      'Medical imaging',
+    ],
+  }),
+
   p('nlp', 'nlp/search-engine-biencoder-crossencoder', {
     id: 'nlp-search-biencoder',
     title: 'Semantic search engine',
@@ -120,6 +152,7 @@ export const portfolioProjects: PortfolioProject[] = [
 
 export const sectionFilters = [
   { id: 'all', label: 'All' },
+  { id: 'computer_vision', label: 'computer_vision/' },
   { id: 'agents', label: 'agents/' },
   { id: 'nlp', label: 'nlp/' },
   { id: 'slms', label: 'slms/' },

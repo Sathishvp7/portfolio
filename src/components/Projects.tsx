@@ -9,6 +9,9 @@ import {
 } from '../data/portfolioRepo';
 import { independentProjects, IndependentProject } from '../data/independentProjects';
 import { profileLinks } from '../profileLinks';
+import FeaturedDemo from './FeaturedDemo';
+
+const featuredProjects = portfolioProjects.filter((p) => p.featured);
 
 const Projects: React.FC = () => {
   const [sectionFilter, setSectionFilter] = useState<SectionFilterId>('all');
@@ -19,14 +22,22 @@ const Projects: React.FC = () => {
 
   const filteredMonorepo = useMemo(() => {
     let list = portfolioProjects;
-    if (sectionFilter === 'agents' || sectionFilter === 'nlp' || sectionFilter === 'slms') {
+    if (
+      sectionFilter === 'computer_vision' ||
+      sectionFilter === 'agents' ||
+      sectionFilter === 'nlp' ||
+      sectionFilter === 'slms'
+    ) {
       list = list.filter((p) => p.section === sectionFilter);
     }
     if (sectionFilter === 'agents' && frameworkFilter !== 'all') {
       list = list.filter((p) => p.framework === frameworkFilter);
     }
-    return list;
+    // Featured projects are surfaced in the dedicated showcase above, not the grid
+    return list.filter((p) => !p.featured);
   }, [sectionFilter, frameworkFilter]);
+
+  const showFeatured = sectionFilter === 'all' || sectionFilter === 'computer_vision';
 
   const filteredOther = useMemo(() => {
     if (!showOther) return [];
@@ -34,7 +45,9 @@ const Projects: React.FC = () => {
   }, [showOther]);
 
   const count =
-    (showMonorepo ? filteredMonorepo.length : 0) + (sectionFilter === 'other' ? filteredOther.length : 0);
+    (showMonorepo ? filteredMonorepo.length : 0) +
+    (showFeatured ? featuredProjects.length : 0) +
+    (sectionFilter === 'other' ? filteredOther.length : 0);
 
   return (
     <section id="projects" className="section-padding bg-white">
@@ -51,7 +64,8 @@ const Projects: React.FC = () => {
             >
               Agentic_AI_Learning
             </a>{' '}
-            repo — <code className="text-sm bg-secondary-100 px-1.5 py-0.5 rounded">agents/</code>,{' '}
+            repo — <code className="text-sm bg-secondary-100 px-1.5 py-0.5 rounded">computer_vision/</code>,{' '}
+            <code className="text-sm bg-secondary-100 px-1.5 py-0.5 rounded">agents/</code>,{' '}
             <code className="text-sm bg-secondary-100 px-1.5 py-0.5 rounded">nlp/</code>,{' '}
             <code className="text-sm bg-secondary-100 px-1.5 py-0.5 rounded">slms/</code>. Click any
             card to open the project on GitHub.
@@ -68,6 +82,7 @@ const Projects: React.FC = () => {
                 <p className="text-sm text-secondary-600 mt-1">{portfolioRepo.description}</p>
                 <pre className="mt-3 text-xs text-secondary-700 bg-white/80 border border-secondary-200 rounded-lg p-3 overflow-x-auto">
 {`Agentic_AI_Learning/
+├── computer_vision/
 ├── nlp/
 ├── agents/
 │   ├── langchain/
@@ -131,7 +146,14 @@ const Projects: React.FC = () => {
           </div>
         )}
 
-        {showMonorepo && (
+        {showFeatured &&
+          featuredProjects.map((project) => (
+            <div key={project.id} className="max-w-5xl mx-auto">
+              <FeaturedDemo project={project} />
+            </div>
+          ))}
+
+        {showMonorepo && filteredMonorepo.length > 0 && (
           <ul className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
             {filteredMonorepo.map((project) => (
               <li key={project.id}>
