@@ -6,7 +6,7 @@ export const profileLinks = {
   linkedIn: 'https://www.linkedin.com/in/sathish-anantha-07a119120/',
   github: 'https://github.com/Sathishvp7',
   resume:
-    'https://drive.google.com/file/d/1zoVeK15Q-hYg_-LCFMwVIT02iu_i6EgP/view?usp=sharing',
+    'https://drive.google.com/file/d/1IcXBI8PLqs4rKGJTuEJDIKflZdYclw5h/view?usp=sharing',
   /** Drop your photo at public/profile.jpg (square, ~400×400 recommended) */
   profileImageLocal: `${process.env.PUBLIC_URL}/profile.jpg`,
   /** Used until profile.jpg exists, or if local file fails to load */
